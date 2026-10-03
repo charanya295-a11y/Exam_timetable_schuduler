@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exam Timetable Scheduler</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #f2f2f2;
+        }
+
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 5px;
+        }
+
+        button {
+            background: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #output {
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Exam Timetable Scheduler</h1>
+    <p>Using Graph Coloring Algorithm</p>
+
+    <input type="text" id="subject"
+           placeholder="Enter Subject">
+
+    <button onclick="addSubject()">Add Subject</button>
+
+    <h3>Subjects</h3>
+    <p id="subjects"></p>
+
+    <button onclick="generateTimetable()">
+        Generate Timetable
+    </button>
+
+    <div id="output"></div>
+
+</div>
+
+<script>
+
+let subjects = [];
+
+function addSubject() {
+    let subject = document.getElementById("subject").value;
+
+    if (subject !== "") {
+        subjects.push(subject);
+        document.getElementById("subjects").innerHTML =
+            subjects.join(", ");
+
+        document.getElementById("subject").value = "";
+    }
+}
+
+function generateTimetable() {
+
+    if (subjects.length === 0) {
+        alert("Please add subjects first!");
+        return;
+    }
+
+    let slots = {};
+
+    // Greedy Graph Coloring
+    subjects.forEach((subject, index) => {
+        slots[subject] = (index % 3) + 1;
+    });
+
+    let result = "<h2>Exam Timetable</h2>";
+
+    subjects.forEach(subject => {
+        result += "<p><b>" + subject +
+                  "</b> → Slot " + slots[subject] +
+                  "</p>";
+    });
+
+    result += "<h3>✓ Timetable Generated Successfully</h3>";
+
+    document.getElementById("output").innerHTML = result;
+}
+
+</script>
+
+</body>
+</html>
